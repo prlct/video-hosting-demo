@@ -1,6 +1,7 @@
-import { FC, memo } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Anchor, AppShell, Group } from '@mantine/core';
+import { Alert, Anchor, AppShell, Group } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 
 import { accountApi } from 'resources/account';
 
@@ -13,8 +14,19 @@ import UserMenu from './components/UserMenu';
 
 const Header: FC = () => {
   const { data: account } = accountApi.useGet();
+  const { data: checkIp } = accountApi.useCheckIp();
 
-  if (!account) return null;
+  useEffect(() => {
+    if (checkIp && checkIp?.security?.vpn) {
+      showNotification({
+        title: 'Warning',
+        message: 'It seems that you are using a VPN. Please disable it.',
+        color: 'red',
+      });
+    }
+  }, [checkIp]);
+
+  if (!account || !checkIp) return null;
 
   return (
     <AppShell.Header>

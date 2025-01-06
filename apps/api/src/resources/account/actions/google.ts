@@ -23,28 +23,30 @@ const signInGoogleWithCode = async (ctx: AppKoaContext) => {
 
   ctx.assertError(isValid && payload && !(payload instanceof Error), `Exchange code for token error: ${payload}`);
 
-  const user = await userService.findOne({ email: payload.email });
+  const user = await userService.findOne({ email: payload.email }, { skipDeletedOnDocs: false });
   let userChanged;
 
+  const { givenName: firstName, familyName, email, picture: avatarUrl } = payload;
+
+  const lastName = familyName || '';
+  const fullName = lastName.length && firstName?.length ? `${firstName} ${lastName}` : '';
+
   if (user) {
-    if (!user.oauth?.google) {
-      userChanged = await userService.updateOne({ _id: user._id }, (old) => ({
-        ...old,
-        oauth: { google: true },
-      }));
-    }
+    userChanged = await userService.updateOne({ _id: user._id }, (old) => ({
+      ...old,
+      firstName,
+      lastName,
+      fullName,
+      avatarUrl: old.avatarUrl || avatarUrl,
+      oauth: { google: true },
+    }));
 
     const userUpdated = userChanged || user;
 
     await Promise.all([userService.updateLastRequest(userUpdated._id), authService.setTokens(ctx, userUpdated._id)]);
 
-    ctx.redirect(config.WEB_URL);
+    return ctx.redirect(config.WEB_URL);
   }
-
-  const { givenName: firstName, familyName, email, picture: avatarUrl } = payload;
-
-  const lastName = familyName || '';
-  const fullName = lastName ? `${firstName} ${lastName}` : firstName;
 
   const newUser = await userService.insertOne({
     firstName,
@@ -59,6 +61,7 @@ const signInGoogleWithCode = async (ctx: AppKoaContext) => {
   });
 
   if (newUser) {
+    console.log('test')
     await Promise.all([userService.updateLastRequest(newUser._id), authService.setTokens(ctx, newUser._id)]);
   }
 

@@ -22,3 +22,10 @@ export type ListParams<T, F> = {
   filter?: T;
   sort?: SortParams<F>;
 };
+
+export enum NotificationType {
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
+  SUCCESS = 'success',
+}

@@ -1,5 +1,6 @@
 import { routeUtil } from 'utils';
 
+import checkIp from './actions/checkIp';
 import forgotPassword from './actions/forgot-password';
 import get from './actions/get';
 import google from './actions/google';
@@ -25,7 +26,7 @@ const publicRoutes = routeUtil.getRoutes([
   google,
 ]);
 
-const privateRoutes = routeUtil.getRoutes([get, update]);
+const privateRoutes = routeUtil.getRoutes([get, checkIp, update]);
 
 const adminRoutes = routeUtil.getRoutes([shadowLogin]);
 

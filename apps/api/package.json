@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "NODE_ENV=development APP_ENV=development ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev": "NODE_ENV=development APP_ENV=development ts-node-dev --respawn --transpile-only --exit-child src/app.ts",
     "start": "ts-node src/app.ts",
     "migrate-dev": "NODE_ENV=development APP_ENV=development ts-node src/migrator.ts",
     "migrate": "ts-node src/migrator.ts",
@@ -23,6 +23,7 @@
     "@aws-sdk/lib-storage": "3.540.0",
     "@aws-sdk/s3-request-presigner": "3.540.0",
     "@koa/cors": "5.0.0",
+    "@koa/multer": "3.0.2",
     "@koa/router": "13.0.0",
     "@paralect/node-mongo": "3.2.0",
     "@socket.io/redis-adapter": "8.1.0",
@@ -30,6 +31,7 @@
     "app-constants": "workspace:*",
     "app-types": "workspace:*",
     "bcryptjs": "2.4.3",
+    "crypto": "1.0.1",
     "dayjs": "1.11.10",
     "dotenv": "16.0.3",
     "google-auth-library": "8.7.0",
@@ -54,6 +56,7 @@
     "resend": "3.2.0",
     "schemas": "workspace:*",
     "socket.io": "4.6.1",
+    "tus-js-client": "4.2.3",
     "winston": "3.8.2",
     "zod": "3.21.4"
   },

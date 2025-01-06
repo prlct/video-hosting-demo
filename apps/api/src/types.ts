@@ -18,15 +18,15 @@ export type CustomErrors = {
 export interface AppKoaContext<T = unknown, R = unknown> extends ParameterizedContext<AppKoaContextState> {
   request: Request & R;
   validatedData: T & object;
-  throwError: (message: string, status?: number) => never;
-  assertError: (condition: unknown, message: string, status?: number) => asserts condition;
+  throwError: (message: string) => never;
+  assertError: (condition: unknown, message: string) => asserts condition;
   throwClientError: (errors: CustomErrors, status?: number) => never;
   assertClientError: (condition: unknown, errors: CustomErrors, status?: number) => asserts condition;
 }
 
-export class AppRouter extends Router<AppKoaContextState, AppKoaContext> {}
+export class AppRouter extends Router<AppKoaContextState, AppKoaContext> { }
 
-export class AppKoa extends Koa<AppKoaContextState, AppKoaContext> {}
+export class AppKoa extends Koa<AppKoaContextState, AppKoaContext> { }
 
 export type AppRouterMiddleware = Router.Middleware<AppKoaContextState, AppKoaContext>;
 

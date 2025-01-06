@@ -13,6 +13,11 @@ export enum RoutePath {
   Home = '/',
   Profile = '/profile',
 
+  Videos = '/videos',
+  MyVideos = '/videos/my',
+  Video = '/videos/[id]',
+  UploadVideo = '/videos/upload',
+
   // Auth paths
   SignIn = '/sign-in',
   SignUp = '/sign-up',
@@ -37,6 +42,22 @@ export const routesConfiguration: RoutesConfiguration = {
     layout: LayoutType.MAIN,
   },
   [RoutePath.Profile]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.Videos]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.MyVideos]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.Video]: {
+    scope: ScopeType.PRIVATE,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.UploadVideo]: {
     scope: ScopeType.PRIVATE,
     layout: LayoutType.MAIN,
   },

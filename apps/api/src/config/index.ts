@@ -26,6 +26,10 @@ const schema = z.object({
   CLOUD_STORAGE_SECRET_ACCESS_KEY: z.string().optional(),
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
+  CLOUDFLARE_ACCOUNT_ID: z.string().optional(),
+  CLOUDFLARE_API_TOKEN: z.string().optional(),
+  CLOUDFLARE_WEBHOOK_SECRET: z.string().optional(),
+  VPNAPI_KEY: z.string().optional(),
 });
 
 type Config = z.infer<typeof schema>;

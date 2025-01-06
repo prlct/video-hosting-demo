@@ -64,6 +64,14 @@ export const useGet = (options: Partial<UseQueryOptions<User>> = {}) =>
     ...options,
   });
 
+export const useCheckIp = (options: Partial<UseQueryOptions<User>> = {}) =>
+  useQuery<User>({
+    queryKey: ['checkip'],
+    queryFn: () => apiService.get('/account/checkIp'),
+    staleTime: 5 * 1000,
+    ...options,
+  });
+
 export const useUpdate = <T = UpdateUserParams>() =>
   useMutation<User, ApiError, T>({
     mutationFn: (data: T) => apiService.put('/account', data),

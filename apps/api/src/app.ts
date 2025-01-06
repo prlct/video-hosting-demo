@@ -10,7 +10,7 @@ import 'dotenv/config';
 
 import cors from '@koa/cors';
 import http from 'http';
-import { koaBody } from 'koa-body';
+import bodyParser from 'koa-bodyparser';
 
 import helmet from 'koa-helmet';
 import koaLogger from 'koa-logger';
@@ -33,18 +33,16 @@ const initKoa = () => {
 
   app.use(cors({ credentials: true }));
   app.use(helmet());
+  app.proxy = true;
   qs(app);
-  app.use(
-    koaBody({
-      multipart: true,
-      onError: (error, ctx) => {
-        const errText: string = error.stack || error.toString();
-
-        logger.warn(`Unable to parse request body. ${errText}`);
-        ctx.throw(422, 'Unable to parse request JSON.');
-      },
-    }),
-  );
+  app.use(bodyParser({
+    enableTypes: ['json', 'form', 'text'],
+    onerror: (err: Error, ctx) => {
+      const errText: string = err.stack || err.toString();
+      logger.warn(`Unable to parse request body. ${errText}`);
+      ctx.throw(422, 'Unable to parse request JSON.');
+    },
+  }));
   app.use(
     koaLogger({
       transporter: (message, args) => {

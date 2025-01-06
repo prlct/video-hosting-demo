@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         <title>Users</title>
       </Head>
 
-      <Stack gap="lg">
+      <Stack p={24} gap="lg">
         <Title order={2}>Users</Title>
 
         <Filters setParams={setParams} />

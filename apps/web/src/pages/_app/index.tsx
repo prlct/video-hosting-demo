@@ -31,7 +31,6 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
             <Component {...pageProps} />
           </PageConfig>
         </ModalsProvider>
-
         <Notifications autoClose={10000} />
         <ReactQueryDevtools buttonPosition="bottom-left" />
       </MantineProvider>

@@ -28,6 +28,8 @@ export const userSchema = dbSchema
 
     oauth: oauthSchema.optional(),
 
+    ips: z.array(z.string()).optional().nullable(),
+
     lastRequest: z.date().optional(),
   })
   .strip();
