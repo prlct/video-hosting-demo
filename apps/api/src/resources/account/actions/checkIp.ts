@@ -21,12 +21,10 @@ async function handler(ctx: AppKoaContext) {
    ips
   }));
  }
- // https://vpnapi.io/api/${clientIp}?key=${config.VPNAPI_KEY}
 
- const response = await fetch(`https://vpnapi.io/api/2001:4860:7:224::f4?key=8bf75a98af314beb8cb51381fba17f10`);
+
+ const response = await fetch(`https://vpnapi.io/api/${clientIp}?key=${config.VPNAPI_KEY}`);
  const data = await response.json();
-
- console.log('data', data)
 
  ctx.body = data;
 }

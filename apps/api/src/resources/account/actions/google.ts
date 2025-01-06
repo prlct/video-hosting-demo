@@ -13,6 +13,8 @@ const getOAuthUrl = async (ctx: AppKoaContext) => {
     global: 'Setup Google OAuth credentials on API',
   });
 
+  console.log('sss ', googleService.oAuthURL);
+
   ctx.redirect(googleService.oAuthURL);
 };
 

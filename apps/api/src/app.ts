@@ -32,9 +32,10 @@ const initKoa = () => {
   const app = new AppKoa();
 
   app.use(cors({
-    origin() {
-      return '*';
-    },
+    origin: '*',
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
   }));
   app.use(helmet());
   app.proxy = true;
