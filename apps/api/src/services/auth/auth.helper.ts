@@ -19,12 +19,24 @@ export const setTokenCookies = ({ ctx, accessToken }: { ctx: AppKoaContext; acce
   ctx.cookies.set(COOKIES.ACCESS_TOKEN, accessToken, {
     httpOnly: true,
     domain: cookiesDomain,
-    expires: new Date(Date.now() + TOKEN_SECURITY_EXPIRES_IN * 1000), // seconds to milliseconds
+    expires: new Date(Date.now() + TOKEN_SECURITY_EXPIRES_IN * 1000), // seconds to miliseconds
   });
 };
 
 export const unsetTokenCookies = (ctx: AppKoaContext) => {
-  ctx.cookies.set(COOKIES.ACCESS_TOKEN, null);
+  const parsedUrl = url.parse(config.WEB_URL);
+
+  if (!parsedUrl.hostname) {
+    return;
+  }
+
+  const parsed = psl.parse(parsedUrl.hostname) as psl.ParsedDomain;
+  const cookiesDomain = parsed.domain || undefined;
+
+  ctx.cookies.set(COOKIES.ACCESS_TOKEN, null, {
+    httpOnly: true,
+    domain: cookiesDomain,
+  });
 };
 
 export default {
