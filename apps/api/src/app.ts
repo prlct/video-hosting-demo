@@ -31,7 +31,11 @@ import { AppKoa } from 'types';
 const initKoa = () => {
   const app = new AppKoa();
 
-  // app.use(cors({ credentials: true }));
+  app.use(cors({
+    origin() {
+      return '*';
+    },
+  }));
   app.use(helmet());
   app.proxy = true;
   qs(app);
