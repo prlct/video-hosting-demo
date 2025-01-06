@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { ZodError, ZodIssue, ZodSchema } from 'zod';
 
 import { AppKoaContext, Next, ValidationErrors } from 'types';

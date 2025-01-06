@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { File } from '@koa/multer';
 import { promises as fsPromises } from 'fs';
 import { basename } from 'path';

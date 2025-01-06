@@ -1,24 +1,11 @@
 import { DateValue } from '@mantine/dates';
-import { useMutation, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { apiService } from 'services';
 
 import queryClient from 'query-client';
 
-import {
-  ApiError,
-  ForgotPasswordParams,
-  ListParams, ListResult,
-  ResendEmailParams,
-  ResetPasswordParams,
-  SignInParams,
-  SignUpParams,
-  SortOrder,
-  UpdateUserParams,
-  User,
-  Video
-} from 'types';
-
+import { ApiError, ListParams, ListResult, SortOrder, UpdateUserParams, User, Video } from 'types';
 
 export type VideosListFilterParams = {
   createdOn?: {
@@ -40,7 +27,6 @@ export const useList = <T extends VideosListParams>(params: T) =>
     queryKey: ['videos', params],
     queryFn: () => apiService.get('/videos', params),
   });
-
 
 export const useGet = ({ id }: { id?: string }) =>
   useQuery<Video, unknown>({

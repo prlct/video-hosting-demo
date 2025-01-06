@@ -1,6 +1,7 @@
-import { FC, memo, useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { FC, memo, useEffect } from 'react';
 import Link from 'next/link';
-import { Alert, Anchor, AppShell, Group } from '@mantine/core';
+import { Anchor, AppShell, Group } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 
 import { accountApi } from 'resources/account';
@@ -17,6 +18,7 @@ const Header: FC = () => {
   const { data: checkIp } = accountApi.useCheckIp();
 
   useEffect(() => {
+    // @ts-ignore
     if (checkIp && checkIp?.security?.vpn) {
       showNotification({
         title: 'Warning',

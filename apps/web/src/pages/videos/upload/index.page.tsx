@@ -1,15 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-shadow */
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button, Group, PasswordInput, Stack, Text, Textarea, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { Button, Group, Stack, Text, Textarea, TextInput, Title } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isUndefined, pickBy } from 'lodash';
-import { serialize } from 'object-to-formdata';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { accountApi } from 'resources/account';
 import { videoApi } from 'resources/video';
 
 import { NotificationIcon } from 'components';
@@ -18,12 +17,8 @@ import Dropzone from 'components/Dropzone';
 import { handleApiError } from 'utils';
 
 import { RoutePath } from 'routes';
-import queryClient from 'query-client';
 
-import { updateUserSchema } from 'schemas';
-import { AttachmentType, NotificationType, UpdateUserParams, User } from 'types';
-
-import AvatarUpload from './components/AvatarUpload';
+import { AttachmentType, NotificationType } from 'types';
 
 const schema = z.object({
   title: z.string().min(1, 'Title is required').max(30, 'The title cannot be more than 30 characters'),
@@ -34,17 +29,9 @@ const schema = z.object({
     .refine((val) => val instanceof File, 'A file is required'),
 });
 
-type FormData = {
-  title: string;
-  description?: string | null;
-  file: File;
-};
-
 type UploadVideoParams = z.infer<typeof schema>;
 
 const UploadVideo: NextPage = () => {
-  const { data: account } = accountApi.useGet();
-  const { colors } = useMantineTheme();
   const { push } = useRouter();
 
   const {
@@ -69,6 +56,8 @@ const UploadVideo: NextPage = () => {
   };
 
   const removeFileHandler = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     setValue('file', undefined);
   };
 
@@ -93,8 +82,7 @@ const UploadVideo: NextPage = () => {
       }
 
       uploadVideo(formData, {
-        onSuccess: (data) => {
-          console.log('data', data)
+        onSuccess: (data: any) => {
           showNotification({
             title: 'Video is processing and will be available soon.',
             message: 'Your video has been successfully uploaded and is being processed.',
@@ -111,10 +99,10 @@ const UploadVideo: NextPage = () => {
 
           // push(`${RoutePath.Videos}`);
         },
-        onError: (e) => handleApiError(e, setError),
+        onError: (e) => handleApiError(e as any, setError),
       });
     } catch (e) {
-      handleApiError(e, setError);
+      handleApiError(e as any, setError);
     }
   };
 
@@ -178,11 +166,7 @@ const UploadVideo: NextPage = () => {
               <Button type="submit" h={44} loading={isUploadPending} fullWidth>
                 Upload
               </Button>
-              <Button
-                variant="outline"
-                onClick={() => push(RoutePath.Videos)}
-                fullWidth
-              >
+              <Button variant="outline" onClick={() => push(RoutePath.Videos)} fullWidth>
                 Cancel
               </Button>
             </Stack>

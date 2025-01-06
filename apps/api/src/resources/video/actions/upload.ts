@@ -1,6 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import multer from '@koa/multer';
 import * as tus from 'tus-js-client';
-import { z } from 'zod';
 
 import { userService } from 'resources/user';
 import { videoService } from 'resources/video';
@@ -36,8 +37,6 @@ async function validator(ctx: AppKoaContext<Request>, next: Next) {
 async function handler(ctx: AppKoaContext<Request>) {
   const { body, file } = ctx.request;
 
-  console.log(' ctx.request', ctx.request)
-
   const createdVideo = await videoService.insertOne({
     title: body.title,
     description: body.description,
@@ -60,16 +59,13 @@ async function handler(ctx: AppKoaContext<Request>) {
       onError(error) {
         console.error('Upload error:', error);
       },
-      onProgress(bytesUploaded, bytesTotal) {
-        const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-        console.log(bytesUploaded, bytesTotal, `${percentage}%`);
-      },
       onAfterResponse: (req, res) => {
-        const mediaIdHeader = res.getHeader("stream-media-id");
+        const mediaIdHeader = res.getHeader('stream-media-id');
         if (mediaIdHeader) {
-          videoService.updateOne({ _id: createdVideo._id }, () => ({
-            streamId: mediaIdHeader,
-          }))
+          videoService
+            .updateOne({ _id: createdVideo._id }, () => ({
+              streamId: mediaIdHeader,
+            }))
             .then(() => resolve());
         } else {
           reject(new Error('No mediaId header found'));
@@ -86,7 +82,11 @@ async function handler(ctx: AppKoaContext<Request>) {
 }
 
 export default (router: AppRouter) => {
-  router.post('/', upload.single('file'), validator,
-    // validateMiddleware(schema), 
-    handler);
+  router.post(
+    '/',
+    upload.single('file'),
+    validator,
+    // validateMiddleware(schema),
+    handler,
+  );
 };

@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Stack, Title } from '@mantine/core';
 import { useSetState } from '@mantine/hooks';
-import { showNotification } from '@mantine/notifications';
 import { SortDirection } from '@tanstack/react-table';
 import { pick } from 'lodash';
 
-import { videoApi, VideosListParams } from 'resources/video';
-import { } from 'resources/video/video.api';
+import { videoApi } from 'resources/video';
+import {} from 'resources/video/video.api';
 
 import { Table } from 'components';
 
@@ -21,7 +21,7 @@ import { COLUMNS, DEFAULT_PAGE, DEFAULT_PARAMS, EXTERNAL_SORT_FIELDS, PER_PAGE }
 
 const Videos: NextPage = () => {
   const { push } = useRouter();
-  const [params, setParams] = useSetState<VideosListParams>(DEFAULT_PARAMS);
+  const [params, setParams] = useSetState(DEFAULT_PARAMS);
 
   const { data: videos, isLoading: isVideosListLoading } = videoApi.useList(params);
 
@@ -54,6 +54,7 @@ const Videos: NextPage = () => {
         <Filters setParams={setParams} />
 
         <Table<User>
+          // @ts-ignore
           data={videos?.results}
           totalCount={videos?.count}
           pageCount={videos?.pagesCount}

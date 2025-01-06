@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import { AppShell, rem, Stack } from '@mantine/core';
+import { AppShell, Stack } from '@mantine/core';
 
 import { accountApi } from 'resources/account';
 
@@ -17,7 +17,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <AppShell
-      component={Stack} bg="gray.0"
+      component={Stack}
+      bg="gray.0"
       navbar={{
         width: 300,
         breakpoint: 'sm',
@@ -27,9 +28,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
       <Navbar />
 
-      <AppShell.Main pt={account.isShadow ? 144 : 104}>
-        {children}
-      </AppShell.Main>
+      <AppShell.Main pt={account.isShadow ? 144 : 104}>{children}</AppShell.Main>
     </AppShell>
   );
 };

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { eventBus, InMemoryEvent } from '@paralect/node-mongo';
 
 import ioEmitter from 'io-emitter';

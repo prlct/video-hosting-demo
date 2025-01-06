@@ -187,6 +187,9 @@ importers:
       '@types/koa-mount':
         specifier: 4.0.2
         version: 4.0.2
+      '@types/koa-multer':
+        specifier: 1.0.4
+        version: 1.0.4
       '@types/koa-ratelimit':
         specifier: 5.0.0
         version: 5.0.0
@@ -4230,6 +4233,9 @@ packages:
 
   '@types/koa-mount@4.0.2':
     resolution: {integrity: sha512-XnuGwV8bzw22nv2WqOs5a8wCHR2VgSnLLLuBQPzNTmhyiAvH0O6c+994rQVbMaBuwQJKefUInkvKoKuk+21uew==}
+
+  '@types/koa-multer@1.0.4':
+    resolution: {integrity: sha512-Aty7k5W/bVgvCtyc7iwzjP1QXp1CPsQE3klmIEVBphK2bthjJjUpgkvFNChckA8DPxaatzFmnotWZnXLAAnLog==}
 
   '@types/koa-ratelimit@5.0.0':
     resolution: {integrity: sha512-eaWWUu/mTDgjGvisSSYSr7Go7ryVw2jIcNz7iuNKbXXEQJqsGMWTJ3oBbeX0mACmPxZbp8/9DKAMWPzyTrNlcw==}
@@ -14925,6 +14931,10 @@ snapshots:
       '@types/koa': 2.13.5
 
   '@types/koa-mount@4.0.2':
+    dependencies:
+      '@types/koa': 2.13.5
+
+  '@types/koa-multer@1.0.4':
     dependencies:
       '@types/koa': 2.13.5
 
