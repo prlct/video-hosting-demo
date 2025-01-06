@@ -22,7 +22,6 @@ async function handler(ctx: AppKoaContext) {
   }));
  }
 
-
  const response = await fetch(`https://vpnapi.io/api/${clientIp}?key=${config.VPNAPI_KEY}`);
  const data = await response.json();
 
