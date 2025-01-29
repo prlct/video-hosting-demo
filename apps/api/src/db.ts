@@ -1,10 +1,16 @@
 // db.ts
-import { Sequelize, Model, ModelStatic } from 'sequelize';
+import { Sequelize } from 'sequelize';
+
 import config from 'config';
 
 export const sequelize = new Sequelize(config.DATABASE_URL, {
   dialect: 'postgres',
   logging: false,
+  dialectOptions: {
+    ssl: {
+      ca: config.DATABASE_SSL_CA
+    }
+  },
   define: {
     underscored: true,
   },

@@ -13,6 +13,7 @@ const schema = z.object({
   API_URL: z.string(),
   WEB_URL: z.string(),
   DATABASE_URL: z.string(),
+  DATABASE_SSL_CA: z.string().optional(),
   MONGO_URI: z.string(),
   MONGO_DB_NAME: z.string(),
   JWT_SECRET: z.string(),
