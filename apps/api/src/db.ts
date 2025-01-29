@@ -8,7 +8,8 @@ export const sequelize = new Sequelize(config.DATABASE_URL, {
   logging: false,
   dialectOptions: {
     ssl: {
-      ca: config.DATABASE_SSL_CA
+      require: true,
+      rejectUnauthorized: false, // <-- Allows self-signed certificates
     }
   },
   define: {
