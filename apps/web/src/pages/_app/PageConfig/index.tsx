@@ -9,7 +9,6 @@ import { LayoutType, RoutePath, routesConfiguration, ScopeType } from 'routes';
 import config from 'config';
 
 import MainLayout from './MainLayout';
-import UnauthorizedLayout from './UnauthorizedLayout';
 
 import 'resources/user/user.handlers';
 

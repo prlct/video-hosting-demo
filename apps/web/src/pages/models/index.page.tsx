@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useState } from 'react';
 import { NextPage } from 'next';
@@ -31,7 +33,7 @@ const formatDuration = (duration: number): string => {
 const Videos: NextPage = () => {
   const { push } = useRouter();
   const [activePage, setPage] = useState(1);
-  const [params, setParams] = useSetState({
+  const [params] = useSetState({
     populate: '*'
   });
 

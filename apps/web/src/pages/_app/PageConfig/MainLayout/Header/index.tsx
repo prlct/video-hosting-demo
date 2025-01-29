@@ -1,39 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FC, memo, useEffect } from 'react';
+import { FC, memo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ActionIcon, Anchor, AppShell, Button, Container, Group, NavLink, Text, TextInput, Title, useMantineColorScheme, useMantineTheme } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
+import { ActionIcon, Anchor, AppShell, Button, Container, Group, NavLink, TextInput, Title, } from '@mantine/core';
 import { IconSearch, IconX } from '@tabler/icons-react';
-
-import { accountApi } from 'resources/account';
-
-import { LogoImage } from 'public/images';
 
 import { RoutePath } from 'routes';
 
-import ShadowLoginBanner from './components/ShadowLoginBanner';
-import UserMenu from './components/UserMenu';
+
 
 const Header: FC = () => {
-  const { query, push, pathname } = useRouter();
-  // const { data: account } = accountApi.useGet();
-  console.log('test')
+  const { query } = useRouter();
 
-  // const { data: checkIp } = accountApi.useCheckIp();
-
-  // useEffect(() => {
-  //   // @ts-ignore
-  //   if (checkIp && checkIp?.security?.vpn) {
-  //     showNotification({
-  //       title: 'Warning',
-  //       message: 'It seems that you are using a VPN. Please disable it.',
-  //       color: 'red',
-  //     });
-  //   }
-  // }, []);
-
-  // if (!account) return null;
 
   return (
     <AppShell.Header withBorder={false}>

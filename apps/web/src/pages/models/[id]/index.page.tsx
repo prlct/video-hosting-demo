@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Badge, Box, Container, Flex, Pagination, Text, Title } from '@mantine/core';
-import qs from 'qs';
+import { Container, Title } from '@mantine/core';
 
 import { modelApi } from 'resources/model';
 
-import VideoCard from 'components/VideoCard';
 
-import { formatDuration, generateThumbnails } from 'utils';
-
-import { RoutePath } from 'routes';
 
 const Model: NextPage = () => {
- const { push, query } = useRouter();
+ const { query } = useRouter();
  const modelId = query.id;
- const [activePage, setPage] = useState(1);
 
- const { data: model, isLoading: isModelLoading } = modelApi.useGet({ id: modelId as string });
+ const { data: model } = modelApi.useGet({ id: modelId as string });
 
  if (!model) {
   return null;

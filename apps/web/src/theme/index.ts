@@ -1,6 +1,6 @@
 import {
   Arvo,
-  Instrument_Sans, Inter, Merriweather, Modak, Montserrat
+  Instrument_Sans, Merriweather, Modak, Montserrat
 } from 'next/font/google';
 import { createTheme, CSSVariablesResolver, DEFAULT_THEME } from '@mantine/core';
 

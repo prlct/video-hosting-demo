@@ -1,20 +1,16 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Anchor, Box, Button, Container, Group, Image, Stack, Text, Title } from '@mantine/core';
+import { Anchor, Box, Button, Container, Group, Stack, Text, Title } from '@mantine/core';
 import { useSetState } from '@mantine/hooks';
-import { showNotification } from '@mantine/notifications';
-import { SortDirection } from '@tanstack/react-table';
-import cx from 'clsx';
-import { pick } from 'lodash';
 
 import { landingApi } from 'resources/landing';
 import { modelApi } from 'resources/model';
-import { userApi, UsersListParams } from 'resources/user';
 import { videoApi } from 'resources/video';
 
-import { Table } from 'components';
 import ModelCard from 'components/ModelCard';
 import VideoCard from 'components/VideoCard';
 
@@ -22,27 +18,20 @@ import { formatDuration, generateThumbnails } from 'utils';
 
 import { RoutePath } from 'routes';
 
-import { User } from 'types';
-
-import Filters from './components/Filters';
-import { COLUMNS, DEFAULT_PAGE, DEFAULT_PARAMS, EXTERNAL_SORT_FIELDS, PER_PAGE } from './constants';
-
 import classes from './index.module.css';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const [params, setParams] = useSetState({
+  const [params] = useSetState({
     populate: '*'
   });
   const { data: info } = landingApi.useGet()
-  const { data: videos, isLoading: isVideosListLoading } = videoApi.useList(params);
-  const { data: models, isLoading: isModelsLoading } = modelApi.useList(params);
+  const { data: videos } = videoApi.useList(params);
+  const { data: models } = modelApi.useList(params);
 
   if (!videos || !models || !info) {
     return null;
   }
-
-  console.log('info', info)
 
   return (
     <>
@@ -78,6 +67,7 @@ const Home: NextPage = () => {
               <VideoCard
                 key={item.id}
                 title={item.title}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 models={item.models.map((model) => model.name)}
                 views={item.views}

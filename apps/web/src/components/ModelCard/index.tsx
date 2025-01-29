@@ -1,8 +1,5 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import { Badge, Box, Card, Group, Image, Text } from '@mantine/core';
-import { IconHeartFilled } from '@tabler/icons-react';
-import { FaPause, FaPlay } from 'react-icons/fa';
+import { FC } from 'react';
+import { Box, Card, Image, Text } from '@mantine/core';
 
 import classes from './index.module.css';
 
