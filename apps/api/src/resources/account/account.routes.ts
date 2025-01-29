@@ -3,14 +3,14 @@ import { routeUtil } from 'utils';
 import checkIp from './actions/checkIp';
 import forgotPassword from './actions/forgot-password';
 import get from './actions/get';
-import google from './actions/google';
-import resendEmail from './actions/resend-email';
-import resetPassword from './actions/reset-password';
-import shadowLogin from './actions/shadow-login';
+// import google from './actions/google';
+// import resendEmail from './actions/resend-email';
+// import resetPassword from './actions/reset-password';
+// import shadowLogin from './actions/shadow-login';
 import signIn from './actions/sign-in';
 import signOut from './actions/sign-out';
 import signUp from './actions/sign-up';
-import update from './actions/update';
+// import update from './actions/update';
 import verifyEmail from './actions/verify-email';
 import verifyResetToken from './actions/verify-reset-token';
 
@@ -20,15 +20,19 @@ const publicRoutes = routeUtil.getRoutes([
   signOut,
   verifyEmail,
   forgotPassword,
-  resetPassword,
+  // resetPassword,
   verifyResetToken,
-  resendEmail,
-  google,
+  // resendEmail,
+  // google,
 ]);
 
-const privateRoutes = routeUtil.getRoutes([get, checkIp, update]);
+const privateRoutes = routeUtil.getRoutes([get, checkIp,
+  // update
+]);
 
-const adminRoutes = routeUtil.getRoutes([shadowLogin]);
+const adminRoutes = routeUtil.getRoutes([
+  // shadowLogin
+]);
 
 export default {
   publicRoutes,

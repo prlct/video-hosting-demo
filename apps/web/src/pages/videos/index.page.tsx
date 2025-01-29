@@ -1,46 +1,30 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Stack, Title } from '@mantine/core';
+import { Container, Flex, Pagination, Skeleton } from '@mantine/core';
 import { useSetState } from '@mantine/hooks';
-import { SortDirection } from '@tanstack/react-table';
-import { pick } from 'lodash';
 
 import { videoApi } from 'resources/video';
-import {} from 'resources/video/video.api';
 
-import { Table } from 'components';
+import VideoCard from 'components/VideoCard';
+
+import { formatDuration, generateThumbnails } from 'utils';
 
 import { RoutePath } from 'routes';
 
-import { User } from 'types';
+;
 
-import Filters from './components/Filters';
-import { COLUMNS, DEFAULT_PAGE, DEFAULT_PARAMS, EXTERNAL_SORT_FIELDS, PER_PAGE } from './constants';
 
 const Videos: NextPage = () => {
   const { push } = useRouter();
-  const [params, setParams] = useSetState(DEFAULT_PARAMS);
+  const [activePage, setPage] = useState(1);
+  const [params, setParams] = useSetState({
+    populate: '*'
+  });
 
   const { data: videos, isLoading: isVideosListLoading } = videoApi.useList(params);
-
-  const onSortingChange = (sort: Record<string, SortDirection>) => {
-    setParams((prev) => {
-      const combinedSort = { ...pick(prev.sort, EXTERNAL_SORT_FIELDS), ...sort };
-
-      return { sort: combinedSort };
-    });
-  };
-
-  const onRowClick = (video: User) => {
-    push({
-      pathname: RoutePath.Video,
-      query: {
-        id: video._id,
-      },
-    });
-  };
 
   return (
     <>
@@ -48,25 +32,53 @@ const Videos: NextPage = () => {
         <title>Videos</title>
       </Head>
 
-      <Stack gap="lg" p={24}>
-        <Title order={2}>Videos</Title>
+      <Container variant="responsive" mt={80}>
+        {isVideosListLoading ? (
+          <Flex flex={1} gap={20}>
+            <Skeleton height={60} radius="sm" />
+          </Flex>
+        ) : (<>
+          <Flex flex={1} gap={20}>
+            {/* @ts-ignore */}
+            {videos.data.map((item) => {
+              const durationInSeconds = parseInt(item.video[0].provider_metadata.duration, 10);
+              const formattedDuration = formatDuration(durationInSeconds);
+              const thumbnails = generateThumbnails(
+                item.video[0].provider_metadata.thumbnail,
+                durationInSeconds,
+                10
+              );
 
-        <Filters setParams={setParams} />
+              return (
+                <VideoCard
+                  key={item.id}
+                  title={item.title}
+                  // @ts-ignore
+                  models={item.models.map((model) => model.name)}
+                  views={item.views}
+                  likes={item.likes}
+                  duration={formattedDuration}
+                  thumbnails={thumbnails}
+                  defaultThumbnail={item.thumbnail.url}
+                  onClick={() => push({
+                    pathname: RoutePath.Video,
+                    query: {
+                      id: item.documentId,
+                    },
+                  })}
+                />
+              );
+            })}
+          </Flex>
+          <Flex align="center" justify="center" mt="40px">
+            <Pagination size="xl" total={videos.meta.pagination.pageCount} value={activePage} onChange={setPage} mt="sm" />
+          </Flex>
+        </>)}
 
-        <Table<User>
-          // @ts-ignore
-          data={videos?.results}
-          totalCount={videos?.count}
-          pageCount={videos?.pagesCount}
-          page={DEFAULT_PAGE}
-          perPage={PER_PAGE}
-          columns={COLUMNS}
-          isLoading={isVideosListLoading}
-          onPageChange={(page) => setParams({ page })}
-          onSortingChange={onSortingChange}
-          onRowClick={onRowClick}
-        />
-      </Stack>
+
+      </Container >
+
+
     </>
   );
 };

@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_shared_banners",
+  "info": {
+    "displayName": "Banner",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "background_cover": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "audios",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "banner_link": {
+      "type": "string",
+      "required": true
+    },
+    "banner_text": {
+      "type": "richtext"
+    }
+  }
+}

@@ -1,11 +1,10 @@
 import crypto from 'crypto'
 import { omit } from 'lodash';
 
-import { videoService } from 'resources/video';
-
 import config from 'config';
 
 import { AppKoaContext, AppRouter, Next } from 'types';
+import { files as Files } from 'models/files';
 
 async function validator(ctx: AppKoaContext, next: Next) {
   const signature = (ctx.request.header['webhook-signature'] as string).split(',');
@@ -34,15 +33,27 @@ async function handler(ctx: AppKoaContext) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const response: any = ctx.request.body;
 
-  const video = await videoService.findOne({ streamId: response.uid });
+  console.log('here')
 
-  if (video) {
-    await videoService.updateOne({ _id: video._id }, () => ({
-      status: response.readyToStream ? 'completed' : 'processing',
-      data: {
-        ...omit(response, ['uid', 'readyToStream', 'creator']),
-      }
-    }));
+  const file = await Files.findOne({ where: { provider_metadata: { streamId: response.uid } }, raw: true });
+
+  console.log('file', file)
+
+  console.log('response', response)
+  // const video = await videoService.findOne({ streamId: response.uid });
+
+  if (file) {
+    await Files.update(
+      {
+        provider_metadata: {
+          ...file.provider_metadata,
+          ...omit(response, ['uid', 'readyToStream', 'creator'])
+        }
+      },
+      {
+        where: { id: file.id },
+      },
+    );
   }
 
   ctx.status = 200;

@@ -12,7 +12,7 @@ import publicRoutes from './public.routes';
 const defineRoutes = (app: AppKoa) => {
   app.use(attachCustomErrors);
   app.use(attachCustomProperties);
-  app.use(routeErrorHandler);
+  // app.use(routeErrorHandler);
   app.use(extractTokens);
   app.use(tryToAttachUser);
 

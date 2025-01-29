@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
-import { videoService } from 'resources/video';
-
+// import { videoService } from 'resources/video';
 import { validateMiddleware } from 'middlewares';
 import { stringUtil } from 'utils';
 
@@ -64,13 +63,14 @@ async function handler(ctx: AppKoaContext<ValidatedData>) {
     });
   }
 
-  const result = await videoService.find(
-    { ...(filterOptions.length && { $and: filterOptions }) },
-    { page, perPage },
-    { sort },
-  );
+  // const result = 
+  // await videoService.find(
+  //   { ...(filterOptions.length && { $and: filterOptions }) },
+  //   { page, perPage },
+  //   { sort },
+  // );
 
-  ctx.body = { ...result, results: result.results };
+  ctx.body = { results: [], pagesCount: 0, count: 0 };
 }
 
 export default (router: AppRouter) => {

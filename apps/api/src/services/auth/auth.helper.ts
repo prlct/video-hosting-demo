@@ -18,9 +18,8 @@ export const setTokenCookies = ({ ctx, accessToken }: { ctx: AppKoaContext; acce
 
   ctx.cookies.set(COOKIES.ACCESS_TOKEN, accessToken, {
     httpOnly: true,
-    secure: true, // Ensure cookies are secure since you're using HTTPS
     sameSite: 'none', // Allows cross-origin requests
-    // domain: cookiesDomain,
+    domain: cookiesDomain,
     expires: new Date(Date.now() + TOKEN_SECURITY_EXPIRES_IN * 1000), // seconds to miliseconds
   });
 };
@@ -37,9 +36,8 @@ export const unsetTokenCookies = (ctx: AppKoaContext) => {
 
   ctx.cookies.set(COOKIES.ACCESS_TOKEN, null, {
     httpOnly: true,
-    secure: true, // Secure cookies
     sameSite: 'none', // Allows cross-origin requests
-    // domain: cookiesDomain,
+    domain: cookiesDomain,
   });
 };
 

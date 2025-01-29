@@ -11,13 +11,7 @@
         "!.next/cache/**"
       ]
     },
-    "api#migrate-dev": {
-      "cache": false
-    },
     "api#schedule-dev": {
-      "dependsOn": [
-        "api#migrate-dev"
-      ],
       "cache": false
     },
     "dev": {
@@ -25,7 +19,6 @@
     },
     "development": {
       "dependsOn": [
-        "api#migrate-dev",
         "api#schedule-dev",
         "dev"
       ],

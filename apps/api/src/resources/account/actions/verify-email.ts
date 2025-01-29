@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+import { users as User } from 'models/user';
 import { userService } from 'resources/user';
 
 import { validateMiddleware } from 'middlewares';
@@ -7,7 +8,7 @@ import { authService, emailService } from 'services';
 
 import config from 'config';
 
-import { AppKoaContext, AppRouter, Next, Template, User } from 'types';
+import { AppKoaContext, AppRouter, Next, Template } from 'types';
 
 const schema = z.object({
   token: z.string().min(1, 'Token is required'),
@@ -18,7 +19,7 @@ interface ValidatedData extends z.infer<typeof schema> {
 }
 
 async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
-  const user = await userService.findOne({ signupToken: ctx.validatedData.token });
+  const user = await User.findOne({ where: { confirmation_token: ctx.validatedData.token }, raw: true });
 
   if (!user) {
     ctx.redirect(`${config.WEB_URL}/sign-in`);
@@ -33,22 +34,24 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
 async function handler(ctx: AppKoaContext<ValidatedData>) {
   const { user } = ctx.validatedData;
 
-  await userService.updateOne({ _id: user._id }, () => ({
-    isEmailVerified: true,
-    signupToken: null,
-  }));
+  console.log('user', user)
+  await User.update({
+    confirmed: true,
+    // confirmation_token: null,
+  }, { where: { id: user.id } });
 
-  await Promise.all([userService.updateLastRequest(user._id), authService.setTokens(ctx, user._id)]);
+  // await Promise.all([userService.updateLastRequest(user._id), authService.setTokens(ctx, user.id)]);
+  await Promise.all([authService.setTokens(ctx, user.id)]);
 
-  await emailService.sendTemplate<Template.SIGN_UP_WELCOME>({
-    to: user.email,
-    subject: 'Welcome to Ship Community!',
-    template: Template.SIGN_UP_WELCOME,
-    params: {
-      firstName: user.firstName,
-      href: `${config.WEB_URL}/sign-in`,
-    },
-  });
+  // await emailService.sendTemplate<Template.SIGN_UP_WELCOME>({
+  //   to: user.email,
+  //   subject: 'Welcome to Ship Community!',
+  //   template: Template.SIGN_UP_WELCOME,
+  //   params: {
+  //     firstName: user.firstName,
+  //     href: `${config.WEB_URL}/sign-in`,
+  //   },
+  // });
 
   ctx.redirect(config.WEB_URL);
 }

@@ -21,11 +21,13 @@ interface ValidatedData extends z.infer<typeof schema> {
 async function validator(ctx: AppKoaContext<ValidatedData>) {
   const { email, token } = ctx.validatedData;
 
-  const user = await userService.findOne({ resetPasswordToken: token });
+  // const user = await userService.findOne({ resetPasswordToken: token });
 
-  const redirectUrl = user
-    ? `${config.WEB_URL}/reset-password?token=${token}`
-    : `${config.WEB_URL}/expire-token?email=${email}`;
+  const redirectUrl =
+    // user
+    //   ? `${config.WEB_URL}/reset-password?token=${token}`
+    // :
+    `${config.WEB_URL}/expire-token?email=${email}`;
 
   ctx.redirect(redirectUrl);
 }

@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "landings",
+  "info": {
+    "singularName": "landing",
+    "pluralName": "landings",
+    "displayName": "Landing",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Banner": {
+      "displayName": "Banner",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.banner"
+    },
+    "Featured": {
+      "displayName": "Featured",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.featured",
+      "required": true
+    }
+  }
+}

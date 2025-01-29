@@ -7,7 +7,9 @@ import { Notifications } from '@mantine/notifications';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import theme from 'theme';
+import AgeVerificationModal from 'components/AgeVerificationModal';
+
+import { resolver, theme } from 'theme';
 
 import queryClient from 'query-client';
 
@@ -25,8 +27,9 @@ const App: FC<AppProps> = ({ Component, pageProps }) => (
     </Head>
 
     <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme}>
+      <MantineProvider theme={theme} defaultColorScheme='dark' cssVariablesResolver={resolver}>
         <ModalsProvider>
+          <AgeVerificationModal />
           <PageConfig>
             <Component {...pageProps} />
           </PageConfig>

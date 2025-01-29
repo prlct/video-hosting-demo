@@ -9,19 +9,17 @@ import { LayoutType, RoutePath, routesConfiguration, ScopeType } from 'routes';
 import config from 'config';
 
 import MainLayout from './MainLayout';
-import PrivateScope from './PrivateScope';
 import UnauthorizedLayout from './UnauthorizedLayout';
 
 import 'resources/user/user.handlers';
 
 const layoutToComponent = {
   [LayoutType.MAIN]: MainLayout,
-  [LayoutType.UNAUTHORIZED]: UnauthorizedLayout,
 };
 
 const scopeToComponent = {
   [ScopeType.PUBLIC]: Fragment,
-  [ScopeType.PRIVATE]: PrivateScope,
+  [ScopeType.PRIVATE]: Fragment,
 };
 
 interface PageConfigProps {

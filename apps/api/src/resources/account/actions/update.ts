@@ -1,57 +1,57 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 
-import { accountUtils } from 'resources/account';
-import { userService } from 'resources/user';
+// import { accountUtils } from 'resources/account';
+// import { userService } from 'resources/user';
 
-import { validateMiddleware } from 'middlewares';
-import { securityUtil } from 'utils';
+// import { validateMiddleware } from 'middlewares';
+// import { securityUtil } from 'utils';
 
-import { updateUserSchema } from 'schemas';
-import { AppKoaContext, AppRouter, Next, UpdateUserParamsBackend, User } from 'types';
+// import { updateUserSchema } from 'schemas';
+// import { AppKoaContext, AppRouter, Next, UpdateUserParamsBackend, User } from 'types';
 
-interface ValidatedData extends UpdateUserParamsBackend {
-  passwordHash?: string | null;
-}
+// interface ValidatedData extends UpdateUserParamsBackend {
+//   passwordHash?: string | null;
+// }
 
-async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
-  const { user } = ctx.state;
-  const { password } = ctx.validatedData;
+// async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
+//   const { user } = ctx.state;
+//   const { password } = ctx.validatedData;
 
-  if (_.isEmpty(ctx.validatedData)) {
-    ctx.body = userService.getPublic(user);
+//   if (_.isEmpty(ctx.validatedData)) {
+//     ctx.body = userService.getPublic(user);
 
-    return;
-  }
+//     return;
+//   }
 
-  if (password) {
-    ctx.validatedData.passwordHash = await securityUtil.getHash(password);
+//   if (password) {
+//     ctx.validatedData.passwordHash = await securityUtil.getHash(password);
 
-    delete ctx.validatedData.password;
-  }
+//     delete ctx.validatedData.password;
+//   }
 
-  await next();
-}
+//   await next();
+// }
 
-async function handler(ctx: AppKoaContext<ValidatedData>) {
-  const { avatar } = ctx.validatedData;
-  const { user } = ctx.state;
+// async function handler(ctx: AppKoaContext<ValidatedData>) {
+//   const { avatar } = ctx.validatedData;
+//   const { user } = ctx.state;
 
-  const nonEmptyValues = _.pickBy(ctx.validatedData, (value) => !_.isUndefined(value));
-  const updateData: Partial<User> = _.omit(nonEmptyValues, 'avatar');
+//   const nonEmptyValues = _.pickBy(ctx.validatedData, (value) => !_.isUndefined(value));
+//   const updateData: Partial<User> = _.omit(nonEmptyValues, 'avatar');
 
-  if (avatar === '') {
-    await accountUtils.removeAvatar(user);
+//   if (avatar === '') {
+//     await accountUtils.removeAvatar(user);
 
-    updateData.avatarUrl = null;
-  }
+//     updateData.avatarUrl = null;
+//   }
 
-  if (avatar && typeof avatar !== 'string') {
-    updateData.avatarUrl = await accountUtils.uploadAvatar(user, avatar);
-  }
+//   if (avatar && typeof avatar !== 'string') {
+//     updateData.avatarUrl = await accountUtils.uploadAvatar(user, avatar);
+//   }
 
-  ctx.body = await userService.updateOne({ _id: user._id }, () => updateData).then(userService.getPublic);
-}
+//   ctx.body = await userService.updateOne({ _id: user._id }, () => updateData).then(userService.getPublic);
+// }
 
-export default (router: AppRouter) => {
-  router.put('/', validateMiddleware(updateUserSchema), validator, handler);
-};
+// export default (router: AppRouter) => {
+//   router.put('/', validateMiddleware(updateUserSchema), validator, handler);
+// };

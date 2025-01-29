@@ -1,12 +1,102 @@
 .label {
-  font-weight: 500;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  font-weight: 600;
+
+  padding: 16px 20px;
 }
 
 .root {
-  transition: all 0.2s ease-in-out;
+  border-radius: 65px;
 
-  &:disabled,
+  background: var(--mantine-color-orange-0);
+
   &[data-disabled] {
-    background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+    color: var(--mantine-color-dark-1) !important;
+    background: var(--mantine-color-gray-0) !important;
+  }
+
+  &[data-variant='primary'] {
+    border: 1px solid var(--mantine-color-white);
+
+    background: var(--mantine-color-violet-0);
+    color: var(--mantine-color-dark-0);
+
+    &:hover {
+      border: 1px solid var(--mantine-color-violet-3);
+      background: var(--mantine-color-violet-3);
+
+      color: var(--mantine-color-dark-0);
+    }
+
+    &:disabled {
+      border: none !important;
+    }
+  }
+
+  &[data-variant='secondary'] {
+    border: 1px solid var(--mantine-color-gray-0);
+
+    background: var(--mantine-color-dark-1);
+    color: var(--mantine-color-text);
+
+    &:hover {
+      border: 1px solid var(--mantine-color-gray-5);
+
+      color: var(--mantine-color-gray-5);
+    }
+  }
+
+  &[data-variant='destructive'] {
+    background: var(--mantine-color-red-9);
+    color: var(--mantine-color-white);
+
+    &:hover {
+      background: var(--mantine-color-orange-0);
+    }
+  }
+
+  &[data-variant='tertiary'] {
+    height: auto;
+    padding: 0;
+    border: none;
+
+    background: none;
+
+    color: var(--mantine-color-orange-0);
+
+    & .section[data-position='left'] {
+      margin-right: 6px;
+    }
+
+    &:hover {
+      background: none;
+      color: var(--mantine-color-orange-0) !important;
+    }
+  }
+
+  &[data-size='header'] {
+    width: 189px;
+    height: 44px;
+  }
+
+  &:not([data-variant]) {
+    color: var(--mantine-color-white);
+
+    &:hover {
+      background: var(--mantine-color-white-0);
+    }
+
+    &:disabled {
+      background: var(--mantine-color-gray-4);
+
+      color: var(--mantine-color-white);
+    }
   }
 }

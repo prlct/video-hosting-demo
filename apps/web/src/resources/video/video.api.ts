@@ -1,11 +1,11 @@
 import { DateValue } from '@mantine/dates';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { apiService } from 'services';
+import { cmsService } from 'services';
 
 import queryClient from 'query-client';
 
-import { ApiError, ListParams, ListResult, SortOrder, UpdateUserParams, User, Video } from 'types';
+import { ApiError, ListParams, ListResult, SortOrder, UpdateUserParams, User, } from 'types';
 
 export type VideosListFilterParams = {
   createdOn?: {
@@ -22,33 +22,31 @@ export type VideosListSortParams = {
 
 export type VideosListParams = ListParams<VideosListFilterParams, VideosListSortParams>;
 
-export const useList = <T extends VideosListParams>(params: T) =>
-  useQuery<ListResult<Video>>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useList = (params: any) =>
+  useQuery({
     queryKey: ['videos', params],
-    queryFn: () => apiService.get('/videos', params),
+    queryFn: () => cmsService.get('/api/videos', params),
   });
 
 export const useGet = ({ id }: { id?: string }) =>
-  useQuery<Video, unknown>({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  useQuery<any, unknown>({
     queryKey: ['videos', id],
-    queryFn: () => apiService.get(`/videos/${id}`),
+    queryFn: () => cmsService.get(`/api/videos/${id}?populate=*`),
     // enabled: !!id,
   });
 
-export const useUpdate = <T = UpdateUserParams>() =>
-  useMutation<User, ApiError, T>({
-    mutationFn: (data: T) => apiService.put('/account', data),
-  });
-
-export const useUploadVideo = <T>() =>
-  useMutation({
-    mutationFn: (data: T) => apiService.post('/videos/', data),
+export const useLike = () =>
+  useMutation<void, unknown, { id: string, data: any }>({
+    mutationFn: ({ id, data }) => cmsService.put(`/api/videos/${id}`, { data }),
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ['videos'] });
     },
   });
 
-export const useDeleteVideo = () =>
-  useMutation<void, unknown, { id: string }>({
-    mutationFn: ({ id }) => apiService.delete(`/videos/${id}`),
+export const useView = () =>
+  useMutation<void, unknown, { id: string, data: any }>({
+    mutationFn: ({ id, data }) => cmsService.put(`/api/videos/${id}`, { data }),
   });

@@ -5,7 +5,6 @@ export enum ScopeType {
 
 export enum LayoutType {
   MAIN = 'MAIN',
-  UNAUTHORIZED = 'UNAUTHORIZED',
 }
 
 export enum RoutePath {
@@ -17,6 +16,12 @@ export enum RoutePath {
   MyVideos = '/videos/my',
   Video = '/videos/[id]',
   UploadVideo = '/videos/upload',
+
+  Photos = '/photos',
+  Photo = '/photos/[id]',
+
+  Models = '/models',
+  Model = '/models/[id]',
 
   // Auth paths
   SignIn = '/sign-in',
@@ -38,7 +43,7 @@ type RoutesConfiguration = {
 export const routesConfiguration: RoutesConfiguration = {
   // Private routes
   [RoutePath.Home]: {
-    scope: ScopeType.PRIVATE,
+    scope: ScopeType.PUBLIC,
     layout: LayoutType.MAIN,
   },
   [RoutePath.Profile]: {
@@ -46,7 +51,7 @@ export const routesConfiguration: RoutesConfiguration = {
     layout: LayoutType.MAIN,
   },
   [RoutePath.Videos]: {
-    scope: ScopeType.PRIVATE,
+    scope: ScopeType.PUBLIC,
     layout: LayoutType.MAIN,
   },
   [RoutePath.MyVideos]: {
@@ -54,7 +59,7 @@ export const routesConfiguration: RoutesConfiguration = {
     layout: LayoutType.MAIN,
   },
   [RoutePath.Video]: {
-    scope: ScopeType.PRIVATE,
+    scope: ScopeType.PUBLIC,
     layout: LayoutType.MAIN,
   },
   [RoutePath.UploadVideo]: {
@@ -62,26 +67,44 @@ export const routesConfiguration: RoutesConfiguration = {
     layout: LayoutType.MAIN,
   },
 
+  [RoutePath.Photos]: {
+    scope: ScopeType.PUBLIC,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.Photo]: {
+    scope: ScopeType.PUBLIC,
+    layout: LayoutType.MAIN,
+  },
+
+  [RoutePath.Models]: {
+    scope: ScopeType.PUBLIC,
+    layout: LayoutType.MAIN,
+  },
+  [RoutePath.Model]: {
+    scope: ScopeType.PUBLIC,
+    layout: LayoutType.MAIN,
+  },
+
   // Auth routes
   [RoutePath.SignIn]: {
     scope: ScopeType.PUBLIC,
-    layout: LayoutType.UNAUTHORIZED,
+    layout: LayoutType.MAIN,
   },
   [RoutePath.SignUp]: {
     scope: ScopeType.PUBLIC,
-    layout: LayoutType.UNAUTHORIZED,
+    layout: LayoutType.MAIN,
   },
   [RoutePath.ForgotPassword]: {
     scope: ScopeType.PUBLIC,
-    layout: LayoutType.UNAUTHORIZED,
+    layout: LayoutType.MAIN,
   },
   [RoutePath.ResetPassword]: {
     scope: ScopeType.PUBLIC,
-    layout: LayoutType.UNAUTHORIZED,
+    layout: LayoutType.MAIN,
   },
   [RoutePath.ExpireToken]: {
     scope: ScopeType.PUBLIC,
-    layout: LayoutType.UNAUTHORIZED,
+    layout: LayoutType.MAIN,
   },
 
   [RoutePath.NotFound]: {},

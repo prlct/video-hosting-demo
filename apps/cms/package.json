@@ -6,7 +6,7 @@
   "scripts": {
     "build": "strapi build",
     "deploy": "strapi deploy",
-    "dev": "strapi develop",
+    "dev": "strapi develop --debug",
     "seed:example": "node ./scripts/seed.js",
     "start": "strapi start",
     "strapi": "strapi"
@@ -14,23 +14,29 @@
   "dependencies": {
     "@strapi/plugin-cloud": "5.6.0",
     "@strapi/plugin-users-permissions": "5.6.0",
+    "@strapi/sdk-plugin": "5.3.0",
     "@strapi/strapi": "5.6.0",
+    "@strapi/typescript-utils": "5.8.0",
+    "aws-sdk": "2.1692.0",
+    "axios": "1.7.2",
     "fs-extra": "^10.0.0",
     "mime-types": "^2.1.27",
     "pg": "8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
+    "resend": "3.2.0",
+    "strapi-provider-cloudflare-r2": "0.3.0",
+    "strapi-provider-email-resend": "file:./providers/strapi-provider-email-resend",
+    "strapi-provider-upload-r2": "file:./providers/strapi-provider-upload-r2",
+    "styled-components": "^6.0.0",
+    "tus-js-client": "4.2.3"
   },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "typescript": "5.2.2"
-  },
-  "engines": {
-    "node": ">= 20.10.0"
   },
   "strapi": {
     "uuid": "5e97193e-8fc2-439a-a2ee-ab4686cd98ab"

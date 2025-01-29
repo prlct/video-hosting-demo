@@ -8,6 +8,7 @@ moduleAlias(); // read aliases from package json
 
 import 'dotenv/config';
 
+import db from 'db';
 import cors from '@koa/cors';
 import http from 'http';
 import bodyParser from 'koa-bodyparser';
@@ -64,6 +65,8 @@ const app = initKoa();
 
 (async () => {
   const server = http.createServer(app.callback());
+
+  await db.connect();
 
   if (config.REDIS_URI) {
     await redisClient

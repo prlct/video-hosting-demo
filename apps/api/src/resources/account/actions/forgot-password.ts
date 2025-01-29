@@ -1,5 +1,5 @@
-import { userService } from 'resources/user';
-
+// import { userService } from 'resources/user';
+import { users as User } from 'models/user';
 import { validateMiddleware } from 'middlewares';
 import { emailService } from 'services';
 import { securityUtil } from 'utils';
@@ -7,14 +7,14 @@ import { securityUtil } from 'utils';
 import config from 'config';
 
 import { forgotPasswordSchema } from 'schemas';
-import { AppKoaContext, AppRouter, ForgotPasswordParams, Next, Template, User } from 'types';
+import { AppKoaContext, AppRouter, ForgotPasswordParams, Next, Template } from 'types';
 
 interface ValidatedData extends ForgotPasswordParams {
   user: User;
 }
 
 async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
-  const user = await userService.findOne({ email: ctx.validatedData.email });
+  const user = await User.findOne({ where: { email: ctx.validatedData.email } });
 
   if (!user) {
     ctx.status = 204;
@@ -28,27 +28,27 @@ async function validator(ctx: AppKoaContext<ValidatedData>, next: Next) {
 async function handler(ctx: AppKoaContext<ValidatedData>) {
   const { user } = ctx.validatedData;
 
-  let { resetPasswordToken } = user;
+  let { reset_password_token } = user;
 
-  if (!resetPasswordToken) {
-    resetPasswordToken = await securityUtil.generateSecureToken();
+  if (!reset_password_token) {
+    reset_password_token = await securityUtil.generateSecureToken();
 
-    await userService.updateOne({ _id: user._id }, () => ({
-      resetPasswordToken,
-    }));
+    await User.update({
+      reset_password_token,
+    }, { where: { id: user.id } });
   }
 
-  const resetPasswordUrl = `${config.API_URL}/account/verify-reset-token?token=${resetPasswordToken}&email=${encodeURIComponent(user.email)}`;
+  // const resetPasswordUrl = `${config.API_URL}/account/verify-reset-token?token=${reset_password_token}&email=${encodeURIComponent(user.email)}`;
 
-  await emailService.sendTemplate<Template.RESET_PASSWORD>({
-    to: user.email,
-    subject: 'Password Reset Request for Ship',
-    template: Template.RESET_PASSWORD,
-    params: {
-      firstName: user.firstName,
-      href: resetPasswordUrl,
-    },
-  });
+  // await emailService.sendTemplate<Template.RESET_PASSWORD>({
+  //   to: user.email,
+  //   subject: 'Password Reset Request for Ship',
+  //   template: Template.RESET_PASSWORD,
+  //   params: {
+  //     firstName: user.firstName,
+  //     href: resetPasswordUrl,
+  //   },
+  // });
 
   ctx.status = 204;
 }

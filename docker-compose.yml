@@ -1,53 +1,67 @@
 services:
-  mongo:
-    container_name: video-hosting-demo-mongo
-    image: mongo:6.0
-    entrypoint:
-      - bash
-      - -c
-      - |
-        exec docker-entrypoint.sh $$@
-    command: mongod --replSet rs --bind_ip_all --keyFile config/keyfile --quiet --logpath /dev/null
+  postgres:
+    container_name: video-hosting-demo-postgres
+    image: postgres:latest
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    networks:
-      - video-hosting-demo
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: development
     ports:
-      - 27017:27017
+      - "5432:5432"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - .dev/mongo/config/keyfile:/config/keyfile
-      - type: volume
-        source: mongodb
-        target: /data/db
-      - type: volume
-        source: mongodb-cfg
-        target: /data/configdb
-  # mongo-replicator creates a replica set for transaction support
-  mongo-replicator:
-    container_name: video-hosting-demo-mongo-replicator
-    image: mongo:6.0
-    entrypoint:
-      - bash
-      - -c
-      - |
-        cd /scripts
-        chmod +x /setup.sh
-        bash /setup.sh
-    volumes:
-      - ./bin/setup.sh:/setup.sh
-      - ./bin:/scripts
-    environment:
-      - HOST=mongo
-      - PORT=27017
-      - USERNAME=root
-      - PASSWORD=root
-      - REPLICA_SET_NAME=rs
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - video-hosting-demo
-    depends_on:
-      - mongo
+
+  # mongo:
+  #   container_name: video-hosting-demo-mongo
+  #   image: mongo:6.0
+  #   entrypoint:
+  #     - bash
+  #     - -c
+  #     - |
+  #       exec docker-entrypoint.sh $$@
+  #   command: mongod --replSet rs --bind_ip_all --keyFile config/keyfile --quiet --logpath /dev/null
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=root
+  #     - MONGO_INITDB_ROOT_PASSWORD=root
+  #   networks:
+  #     - video-hosting-demo
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - .dev/mongo/config/keyfile:/config/keyfile
+  #     - type: volume
+  #       source: mongodb
+  #       target: /data/db
+  #     - type: volume
+  #       source: mongodb-cfg
+  #       target: /data/configdb
+  # # mongo-replicator creates a replica set for transaction support
+  # mongo-replicator:
+  #   container_name: video-hosting-demo-mongo-replicator
+  #   image: mongo:6.0
+  #   entrypoint:
+  #     - bash
+  #     - -c
+  #     - |
+  #       cd /scripts
+  #       chmod +x /setup.sh
+  #       bash /setup.sh
+  #   volumes:
+  #     - ./bin/setup.sh:/setup.sh
+  #     - ./bin:/scripts
+  #   environment:
+  #     - HOST=mongo
+  #     - PORT=27017
+  #     - USERNAME=root
+  #     - PASSWORD=root
+  #     - REPLICA_SET_NAME=rs
+  #   networks:
+  #     - video-hosting-demo
+  #   depends_on:
+  #     - mongo
   redis:
     container_name: video-hosting-demo-redis
     image: redis:5.0.5
@@ -75,22 +89,21 @@ services:
       - 3001:3001
     depends_on:
       - redis
-      - mongo-replicator
-  migrator:
-    container_name: video-hosting-demo-migrator
-    build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile.migrator
-      target: development
-      args:
-        NODE_ENV: development
-        APP_ENV: development
-    networks:
-      - video-hosting-demo
-    volumes:
-      - ./apps/api/src:/app/apps/api/src
-    depends_on:
-      - mongo-replicator
+  # migrator:
+  #   container_name: video-hosting-demo-migrator
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/api/Dockerfile.migrator
+  #     target: development
+  #     args:
+  #       NODE_ENV: development
+  #       APP_ENV: development
+  #   networks:
+  #     - video-hosting-demo
+  #   volumes:
+  #     - ./apps/api/src:/app/apps/api/src
+  #   depends_on:
+  #     - mongo-replicator
   scheduler:
     container_name: video-hosting-demo-scheduler
     build:
@@ -104,8 +117,8 @@ services:
       - video-hosting-demo
     volumes:
       - ./apps/api/src:/app/apps/api/src
-    depends_on:
-      - mongo-replicator
+    # depends_on:
+    #   - mongo-replicator
   web:
     container_name: video-hosting-demo-web
     build:
@@ -144,6 +157,7 @@ networks:
     name: video-hosting-demo-network
 
 volumes:
-  mongodb:
-  mongodb-cfg:
+  postgres_data:
+  # mongodb:
+  # mongodb-cfg:
   mailer-volume:

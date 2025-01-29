@@ -1,5 +1,9 @@
+export { default as Badge } from './Badge'
 export { default as Button } from './Button';
+export { default as Container } from './Container';
 export { default as Image } from './Image';
+export { default as Notification } from './Notification';
+export { default as Pagination } from './Pagination'
 export { default as PasswordInput } from './PasswordInput';
 export { default as Select } from './Select';
 export { default as TextInput } from './TextInput';

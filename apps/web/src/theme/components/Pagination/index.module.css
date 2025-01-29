@@ -1,0 +1,5 @@
+.root {
+  &[data-active='true'] {
+    background-color: var(--mantine-color-violet-0);
+  }
+}

@@ -1,8 +1,7 @@
 import { FC, ReactElement } from 'react';
-import { AppShell, Stack } from '@mantine/core';
+import { AppShell } from '@mantine/core';
 
-import { accountApi } from 'resources/account';
-
+import Footer from './Footer';
 import Header from './Header';
 import Navbar from './Navbar';
 
@@ -10,27 +9,16 @@ interface MainLayoutProps {
   children: ReactElement;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ children }) => {
-  const { data: account } = accountApi.useGet();
+const MainLayout: FC<MainLayoutProps> = ({ children }) => (
+  <AppShell>
+    <Header />
 
-  if (!account) return null;
+    <Navbar />
 
-  return (
-    <AppShell
-      component={Stack}
-      bg="gray.0"
-      navbar={{
-        width: 300,
-        breakpoint: 'sm',
-      }}
-    >
-      <Header />
+    <AppShell.Main pt={102} px={0}>{children}</AppShell.Main>
 
-      <Navbar />
-
-      <AppShell.Main pt={account.isShadow ? 144 : 104}>{children}</AppShell.Main>
-    </AppShell>
-  );
-};
+    <Footer />
+  </AppShell>
+);
 
 export default MainLayout;

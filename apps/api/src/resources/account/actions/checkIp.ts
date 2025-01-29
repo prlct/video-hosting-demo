@@ -17,9 +17,9 @@ async function handler(ctx: AppKoaContext) {
  if (Array.isArray(user.ips) && !user.ips.includes(clientIp)) {
   ips.push(clientIp);
 
-  await userService.updateOne({ _id: user._id }, () => ({
-   ips
-  }));
+  // await userService.updateOne({ _id: user._id }, () => ({
+  //  ips
+  // }));
  }
 
  const response = await fetch(`https://vpnapi.io/api/${clientIp}?key=${config.VPNAPI_KEY}`);

@@ -1,5 +1,38 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedBanner extends Struct.ComponentSchema {
+  collectionName: 'components_shared_banners';
+  info: {
+    displayName: 'Banner';
+    icon: 'picture';
+  };
+  attributes: {
+    background_cover: Schema.Attribute.Media<
+      'images' | 'files' | 'audios' | 'videos'
+    > &
+      Schema.Attribute.Required;
+    banner_link: Schema.Attribute.String & Schema.Attribute.Required;
+    banner_text: Schema.Attribute.RichText;
+  };
+}
+
+export interface SharedFeatured extends Struct.ComponentSchema {
+  collectionName: 'components_shared_featureds';
+  info: {
+    description: '';
+    displayName: 'Featured';
+    icon: 'chartBubble';
+  };
+  attributes: {
+    background_cover: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    description: Schema.Attribute.RichText & Schema.Attribute.Required;
+    link: Schema.Attribute.String;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
@@ -65,6 +98,8 @@ export interface SharedSlider extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.banner': SharedBanner;
+      'shared.featured': SharedFeatured;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
